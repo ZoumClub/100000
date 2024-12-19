@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { useDealerCars } from "@/lib/hooks/useDealerCars";
-import { useVisibilityToggle } from "@/lib/hooks/useVisibilityToggle";
+import { useCarVisibility } from "@/lib/modules/cars/hooks/useCarVisibility";
 import { DealerCarDialog } from "./dialogs/DealerCarDialog";
 import { columns } from "./columns/carListingsColumns";
 import { toast } from "sonner";
@@ -15,10 +15,7 @@ export function CarListingsTab() {
   const [showDialog, setShowDialog] = useState(false);
   const [selectedCar, setSelectedCar] = useState<DealerCar | null>(null);
   const { cars, isLoading, error, refresh } = useDealerCars();
-  const { toggleVisibility } = useVisibilityToggle({ 
-    table: "dealer_cars",
-    onSuccess: refresh 
-  });
+  const { toggleVisibility, isUpdating } = useCarVisibility({ onSuccess: refresh });
 
   const handleEdit = (car: DealerCar) => {
     setSelectedCar(car);
@@ -69,7 +66,8 @@ export function CarListingsTab() {
         meta={{
           onEdit: handleEdit,
           onDelete: handleDelete,
-          onToggleVisibility: toggleVisibility
+          onToggleVisibility: toggleVisibility,
+          isUpdating
         }}
       />
 
