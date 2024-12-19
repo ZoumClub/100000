@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { useDealerCars } from "@/lib/hooks/useDealerCars";
-import { useCarVisibility } from "@/lib/modules/cars/hooks";
+import { useCarVisibility } from "@/lib/modules/cars/hooks/useCarVisibility";
 import { DealerCarDialog } from "./dialogs/DealerCarDialog";
 import { columns } from "./columns/carListingsColumns";
 import { toast } from "sonner";
@@ -63,12 +63,10 @@ export function CarListingsTab() {
         columns={columns}
         data={cars || []}
         isLoading={isLoading}
-        meta={{
-          onEdit: handleEdit,
-          onDelete: handleDelete,
-          onToggleVisibility: toggleVisibility,
-          isUpdating
-        }}
+        onDelete={handleDelete}
+        onToggleVisibility={toggleVisibility}
+        isUpdating={isUpdating}
+        onEdit={handleEdit}
       />
 
       <DealerCarDialog
