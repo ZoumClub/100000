@@ -25,20 +25,6 @@ export function useVisibilityToggle({ table, onSuccess }: UseVisibilityToggleOpt
     try {
       setIsUpdating(true);
 
-      // Check if trying to hide "All Brands"
-      if (table === 'brands' && !isVisible) {
-        const { data } = await supabase
-          .from('brands')
-          .select('name')
-          .eq('id', id)
-          .single();
-
-        if (data?.name === 'All Brands') {
-          toast.error('"All Brands" must remain visible');
-          return;
-        }
-      }
-
       const { error } = await supabase
         .from(table)
         .update({ is_visible: isVisible })
